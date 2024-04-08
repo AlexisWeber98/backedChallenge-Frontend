@@ -16,6 +16,7 @@ const SearchBar: React.FC = () => {
     <nav>
       <div>
         <input
+        className="p-2"
           type="text"
           placeholder="Search....."
           onChange={handlerChange}
