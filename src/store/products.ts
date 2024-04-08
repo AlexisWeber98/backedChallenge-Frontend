@@ -14,6 +14,7 @@ interface ProductsStoreType {
   products: Product[];
   totalPages: number;
   currentPage: Number;
+  productDetail:Product;
   addAllProducts: () => Promise<void>;
   deleteById: (id: number) => Promise<void>;
   postProduct: (newProduct: Product) => Promise<void>;
@@ -26,6 +27,7 @@ export const useStore = create<ProductsStoreType>((set) => ({
   products: [],
   totalPages: 0,
   currentPage: 1,
+  productDetail:{} as Product,
   addAllProducts: async () => {
     const response = await axios.get("/product");
     set({
@@ -46,14 +48,16 @@ export const useStore = create<ProductsStoreType>((set) => ({
   searchByTitle: async (title) => {
     if (title) {
       const response = await axios.get(`/product?title=${title}`);
-      set({ products: response.data.products });
+      set({ products: response.data.products});
     } else {
       useStore.getState().addAllProducts();
     }
   },
-  findbyId: async (id) => {
-    const { data } = await axios.get(`/product/id=${id}`);
-    set({ products: data.products });
+  findbyId: async (id) => {  
+    const {data} = await axios.get(`/product?id=${id}`);
+    console.log("data",data);
+    set({ productDetail: data});
+    
   },
   searchByPage: async (page) => {
     const { data } = await axios.get(`/product?page=${page}`);
