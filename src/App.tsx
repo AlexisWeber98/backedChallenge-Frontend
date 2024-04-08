@@ -1,22 +1,17 @@
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { useStore } from "./store/products";
+import ProductDetails from "./views/ProductDetails/Details";
 import "./App.css";
 import Home from "./views/Home/Home";
-import { useEffect } from "react";
-
 
 function App() {
-  const { addAllProducts } = useStore();
-  useEffect(() => {
-    addAllProducts();
-  }, []);
 
   return (
-    <div className="App">
+    <div className="bg-whitew-full h-screen bg-cover">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="product/:id" element={<ProductDetails />} />
         </Routes>
       </BrowserRouter>
     </div>
