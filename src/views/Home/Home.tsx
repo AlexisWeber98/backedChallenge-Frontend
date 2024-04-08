@@ -6,19 +6,19 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 const Home: React.FC = () => {
   const { products } = useStore();
   const { totalPages } = useStore();
+  const {addAllProducts} = useStore()
   const { searchByPage } = useStore();
   const [currentLocalPage, setCurrentLocalPage] = React.useState(1);
   const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    setData(products);
-  }, [products]);
+    // addAllProducts();
+    searchByPage(currentLocalPage);
+  }, [currentLocalPage]); 
   
   useEffect(() => {
-    // Llamar a searchByPage con el valor actualizado de currentLocalPage
-    searchByPage(currentLocalPage);
-  }, [currentLocalPage, searchByPage]);
-
+    setData(products);
+  }, [products]); 
   const handlerNextPage = () => {
     setCurrentLocalPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
@@ -26,37 +26,52 @@ const Home: React.FC = () => {
   const handlerPrevPage = () => {
     setCurrentLocalPage((prevPage) => Math.max(prevPage - 1, 1));
   };
+  console.log("data at home:", data);
+  
 
   return (
-    <div className="container">
+    <main className="">
       <SearchBar />
-      <div>
-        {data.map((product: any) => (
-          <Cards
-            key={product._id}
-            id={product._id}
-            title={product.title}
-            description={product.description}
-            price={product.price}
-            img={product.img}
-            category={product.category}
-          />
-        ))}
+      <div className=" ">
         <div>
-          <button onClick={handlerPrevPage} disabled={currentLocalPage <= 1}>
-            prev
-          </button>
-          {currentLocalPage} / {totalPages}
+        {data && data.length > 0 ?  (
+            data.map((product: any) => (
+              <Cards
+                key={product._id}
+                id={product._id}
+                title={product.title}
+                description={product.description}
+                price={product.price}
+                img={product.img}
+                category={product.category}
+              />
+            ))
+          ) : (
+            <div>
+              <h3>No Hay Coincidencias </h3>
+            </div>
+          )}
+
+          <div className="flex justify-between items-center pagination p-4">
+            <button
+              className="p-3 m-2"
+              onClick={handlerPrevPage}
+              disabled={currentLocalPage <= 1}>
+              {"<   "}prev
+            </button>
+            {currentLocalPage} / {totalPages}
+            <button
+              className="m-2"
+              onClick={handlerNextPage}
+              disabled={currentLocalPage >= totalPages}>
+              next {"  >"}
+            </button>
+          </div>
         </div>{" "}
-        <button
-          onClick={ handlerNextPage}
-          disabled={currentLocalPage >= totalPages}>
-          next
-        </button>
       </div>
 
       <button type="button">Add Product</button>
-    </div>
+    </main>
   );
 };
 
