@@ -4,7 +4,7 @@ import axios from "axios";
 import App from "./App";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = "https://back-products.fly.dev/";
 
 ReactDOM.render(
   <React.StrictMode>
