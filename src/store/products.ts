@@ -54,8 +54,7 @@ export const useStore = create<ProductsStoreType>((set) => ({
     }
   },
   findbyId: async (id) => {  
-    const {data} = await axios.get(`/product?id=${id}`);
-    console.log("data",data);
+    const {data} = await axios.get(`/product?id=${id}`)
     set({ productDetail: data});
     
   },

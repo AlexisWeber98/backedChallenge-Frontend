@@ -6,7 +6,6 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 const Home: React.FC = () => {
   const { products } = useStore();
   const { totalPages } = useStore();
-  const {addAllProducts} = useStore()
   const { searchByPage } = useStore();
   const [currentLocalPage, setCurrentLocalPage] = React.useState(1);
   const [data, setData] = useState<any>([]);
@@ -26,9 +25,7 @@ const Home: React.FC = () => {
   const handlerPrevPage = () => {
     setCurrentLocalPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-  console.log("data at home:", data);
   
-
   return (
     <main className="">
       <SearchBar />
