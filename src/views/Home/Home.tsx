@@ -1,23 +1,47 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useStore } from "../../store/products";
 import Cards from "../../components/Cards/Cards";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  img: string;
+  category: string;
+}
+
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+  // --------------- GlobalStorage --------------- //
+
   const { products } = useStore();
   const { totalPages } = useStore();
   const { searchByPage } = useStore();
-  const [currentLocalPage, setCurrentLocalPage] = React.useState(1);
-  const [data, setData] = useState<any>([]);
+
+  // ---------------  LocalStates --------------- //
+
+  const [currentLocalPage, setCurrentLocalPage] = useState(1);
+  const [data, setData] = useState<Product[] | any>([]);
+  // --------------- Functions -----------------//
 
   useEffect(() => {
     // addAllProducts();
     searchByPage(currentLocalPage);
-  }, [currentLocalPage]); 
-  
+  }, [currentLocalPage]);
+
   useEffect(() => {
     setData(products);
-  }, [products]); 
+  }, [products]);
+
+  // --------------- Handlers --------------- //
+
+  const handlerAddProduct = () => {
+    navigate("/new");
+  };
+
   const handlerNextPage = () => {
     setCurrentLocalPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
@@ -25,13 +49,13 @@ const Home: React.FC = () => {
   const handlerPrevPage = () => {
     setCurrentLocalPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-  
+
   return (
     <main className="">
       <SearchBar />
       <div className=" ">
         <div>
-        {data && data.length > 0 ?  (
+          {data && data.length > 0 ? (
             data.map((product: any) => (
               <Cards
                 key={product._id}
@@ -67,7 +91,9 @@ const Home: React.FC = () => {
         </div>{" "}
       </div>
 
-      <button type="button">Add Product</button>
+      <button type="button" onClick={handlerAddProduct}>
+        Add Product
+      </button>
     </main>
   );
 };
