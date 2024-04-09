@@ -2,12 +2,12 @@ import { create } from "zustand";
 import axios from "axios";
 
 interface Product {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   price: number;
   img: string;
-  category: string;
+  category?: string;
 }
 
 interface ProductsStoreType {
