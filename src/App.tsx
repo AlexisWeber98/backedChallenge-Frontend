@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import ProductDetails from "./views/ProductDetails/Details";
 import "./App.css";
 import Home from "./views/Home/Home";
+import AddProduct from "./views/AddProduct/AddProduct";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="product/:id" element={<ProductDetails />} />
+          <Route path="/new" element={<AddProduct/>}/>
         </Routes>
       </BrowserRouter>
     </div>
